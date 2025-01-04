@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Report Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Reports Dashboard</h2>
+    <div class="d-flex justify-content-end mb-3">
+        <form action="#" th:action="@{/ui/process}" method="post" class="form-process">
+			<button type="submit" class="btn btn-primary btn-block">Generate New</button>
+		</form>
+		<form action="#" th:action="@{/admin}" method="post" class="form-process">
+					<button type="submit" class="btn btn-secondary btn-block">Admin</button>
+		</form>
+    </div>
+	<div style="max-height: 400px; overflow-y: auto; border: 1px solid #ddd;">
+
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>CIK</th>
+            <th>Topic</th>
+            <th>Timestamp</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="reportDetail : ${reportDetails}">
+			<td>
+			        <a th:href="@{/report/trail(id=${reportDetail.id})}" th:text="${reportDetail.id}"></a>
+			</td>
+            <td th:text="${reportDetail.cik}"></td>
+            <td th:text="${reportDetail.topic}"></td>
+			<td th:text="${#temporals.format(reportDetail.timestamp, 'dd-MM-yyyy HH:mm:ss')}"></td>            
+			<td th:text="${reportDetail.status}"></td>
+        </tr>
+        </tbody>
+    </table>
+	</div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

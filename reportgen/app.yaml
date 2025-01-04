@@ -1,0 +1,6 @@
+runtime: java
+env: flex
+env_variables:
+ MONGO_URI: "mongodb+srv://somdevdb:Tata%403684@somdevdemo.3qwvn.mongodb.net/?retryWrites=true&w=majority&tls=true&ssl=true&appName=somdevdemo"
+runtime_config:
+ operating_system: "ubuntu22"

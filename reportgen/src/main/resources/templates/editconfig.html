@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Edit Document</h2>
+    <form action="#" th:action="@{/edit}" method="post">
+        <input type="hidden" id="id" name="id" th:value="${document.id}">
+        <div class="form-group">
+            <label for="stringKey">String Key:</label>
+            <input type="text" id="stringKey" name="stringKey" class="form-control" th:value="${document.stringKey}" required>
+        </div>
+        <div class="form-group">
+            <label for="jsonValue">JSON Value:</label>
+            <textarea id="jsonValue" name="jsonValue" class="form-control" th:text="${document.jsonValue}" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Update Document</button>
+    </form>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

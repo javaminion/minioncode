@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sample Report</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+	<div class="d-flex justify-content-end mb-3">
+			 		        <a th:href="@{/ui}" th:text="Home"></a></div>
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Report</h1>
+
+        <!-- Loop through chartData and chartHeadings -->
+        <div th:each="chartKey : ${chartData.keySet()}" class="mb-5">
+            <!-- Dynamic Chart Heading -->
+            <h2 class="text-primary" th:text="${chartHeadings.get(chartKey)}"></h2>
+			<div class="container">
+			        <h3 class="my-4">Extracted Data from SEC EDGAR</h3>
+			        <table class="table table-bordered table-striped">
+			            <thead class="thead-dark">
+			                <tr>
+			                    <th>Value</th>
+			                    <th>Accession Number</th>
+			                    <th>Fiscal Year</th>
+			                    <th>Fiscal Period</th>
+			                    <th>Form</th>
+			                    <th>Filed</th>
+			                </tr>
+			            </thead>
+			            <tbody>
+			                <!-- Iterate through the list of objects -->
+			                <tr th:each="record : ${topicFacts.get(chartKey)}">
+			                    <td th:text="${record.val}"></td>
+			                    <td th:text="${record.accn}"></td>
+			                    <td th:text="${record.fy}"></td>
+			                    <td th:text="${record.fp}"></td>
+			                    <td th:text="${record.form}"></td>
+			                    <td th:text="${record.filed}"></td>
+			                </tr>
+			            </tbody>
+			        </table>
+			    </div>
+            <!-- Chart Canvas -->
+			<h3 class="my-4">Summary Chart</h3>
+            <canvas th:id="'barChart' + ${chartKey}" width="400" height="200" class="chart-canvas"></canvas>
+        </div>
+    </div>
+	
+	<div class="container">
+				        <h3 class="my-4">Extracted Annual Reports from Alpha Vantage</h3>
+				        <table class="table table-bordered table-striped">
+				            <thead class="thead-dark">
+				                <tr>
+				                    <th>Fiscal Date Ending</th>
+				                    <th>Total Assets</th>
+				                    <th>Total Liabilities</th>
+				                    <th>Investments</th>
+				                    <th>Current Debt</th>
+				                    <th>Reported Currency</th>
+				                </tr>
+				            </thead>
+				            <tbody>
+				                <!-- Iterate through the list of objects -->
+				                <tr th:each="record : ${annualReports}">
+				                    <td th:text="${record.fiscalDateEnding}"></td>
+				                    <td th:text="${record.totalAssets}"></td>
+				                    <td th:text="${record.totalLiabilities}"></td>
+				                    <td th:text="${record.investments}"></td>
+				                    <td th:text="${record.currentDebt}"></td>
+				                    <td th:text="${record.reportedCurrency}"></td>
+				                </tr>
+				            </tbody>
+				        </table>
+		</div>
+		
+		<div class="container">
+						        <h3 class="my-4">Extracted Quarterly Reports from Alpha Vantage</h3>
+						        <table class="table table-bordered table-striped">
+						            <thead class="thead-dark">
+						                <tr>
+						                    <th>Fiscal Date Ending</th>
+						                    <th>Common Stock</th>
+						                    <th>Intangible Assets</th>
+						                    <th>Retained Earnings</th>
+						                    <th>Total Shareholder Equity</th>
+						                    <th>Reported Currency</th>
+						                </tr>
+						            </thead>
+						            <tbody>
+						                <!-- Iterate through the list of objects -->
+						                <tr th:each="record : ${quarterlyReports}">
+						                    <td th:text="${record.fiscalDateEnding}"></td>
+						                    <td th:text="${record.commonStock}"></td>
+						                    <td th:text="${record.intangibleAssets}"></td>
+						                    <td th:text="${record.retainedEarnings}"></td>
+						                    <td th:text="${record.totalShareholderEquity}"></td>
+						                    <td th:text="${record.reportedCurrency}"></td>
+						                </tr>
+						            </tbody>
+						        </table>
+		</div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const chartData = /*[[${chartData}]]*/ {};
+
+        // Loop through chartData to create charts dynamically
+        Object.keys(chartData).forEach(function(chartKey) {
+            const data = chartData[chartKey];
+
+            // Get labels and values for this chart
+            const labels = Object.keys(data);
+            const chartValues = Object.values(data);
+
+            // Create a new chart for each canvas dynamically
+            const ctx = document.getElementById('barChart' + chartKey).getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'SEC EDGAR Data',
+                        data: chartValues,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+        /*]]>*/
+    </script>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
